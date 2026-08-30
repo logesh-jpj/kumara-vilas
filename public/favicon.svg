@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#061a14" stroke="#d4af37" stroke-width="3" />
+  <circle cx="50" cy="50" r="43" fill="none" stroke="#d4af37" stroke-width="1" stroke-dasharray="3,3" opacity="0.6" />
+  <text x="50" y="58" font-family="'Playfair Display', Georgia, serif" font-size="34" font-weight="bold" fill="#d4af37" text-anchor="middle" letter-spacing="1">KV</text>
+  <path d="M 35 68 Q 50 74 65 68" stroke="#d4af37" stroke-width="2" fill="none" />
+  <circle cx="50" cy="74" r="2" fill="#d4af37" />
+</svg>
