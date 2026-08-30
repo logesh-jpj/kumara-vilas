@@ -1,4 +1,5 @@
 import React from 'react';
+import kvLogo from '../assets/kvlogo.png';
 
 interface LogoProps {
   className?: string;
@@ -16,19 +17,19 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', variant = 'gold', class
       className={`inline-flex items-center gap-3.5 group focus:outline-none focus:ring-2 focus:ring-brand-gold/50 rounded-lg p-1 transition-all ${className}`}
       aria-label="Hotel Kumara Vilas Home"
     >
-      {/* Insignia Crest */}
-      <div className={`relative flex items-center justify-center shrink-0 rounded-full border border-brand-gold/60 bg-gradient-to-b from-[#0e2f25] to-[#04120e] shadow-lg shadow-black/40 group-hover:border-brand-gold transition-colors ${
+      {/* Insignia Crest with kvlogo.png */}
+      <div className={`relative flex items-center justify-center shrink-0 rounded-full border border-brand-gold/60 bg-gradient-to-b from-[#0e2f25] to-[#04120e] shadow-lg shadow-black/40 group-hover:border-brand-gold overflow-hidden transition-colors ${
         isSm ? 'w-10 h-10' : isLg ? 'w-16 h-16' : 'w-12 h-12'
       }`}>
         {/* Outer decorative ring */}
-        <div className="absolute inset-[3px] rounded-full border border-dashed border-brand-gold/30 group-hover:border-brand-gold/60 transition-colors" />
+        <div className="absolute inset-[2px] rounded-full border border-dashed border-brand-gold/30 group-hover:border-brand-gold/60 transition-colors pointer-events-none z-10" />
         
-        {/* Monogram */}
-        <span className={`font-serif font-bold text-brand-gold leading-none tracking-wider ${
-          isSm ? 'text-sm' : isLg ? 'text-2xl' : 'text-lg'
-        }`}>
-          KV
-        </span>
+        {/* Logo image */}
+        <img
+          src={kvLogo}
+          alt="Hotel Kumara Vilas Crest"
+          className="relative w-[82%] h-[82%] object-contain rounded-full"
+        />
       </div>
 
       {/* Brand Text */}
@@ -47,3 +48,4 @@ export const Logo: React.FC<LogoProps> = ({ size = 'md', variant = 'gold', class
     </a>
   );
 };
+
