@@ -1,27 +1,29 @@
 import React from 'react';
 import { ArrowUpRight, Heart, MessageCircle } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 export const InstagramSection: React.FC = () => {
   const instagramPosts = [
     {
       id: 'p1',
-      image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop',
+      image: getAssetUrl('Ghee Podi Onion Dosa.jpg'),
       caption: 'Crisp Ghee Podi Onion Dosa hot off the iron tawa! #HotelKumaraVilas #Sundarapuram',
     },
     {
       id: 'p2',
-      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
+      image: getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
       caption: 'The unmistakable aroma of Kumaravilas Chicken Ghee Roast. #KVSspecials #CoimbatoreFood',
     },
     {
       id: 'p3',
-      image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop',
+      image: getAssetUrl('Mutton Biryani.jpg'),
       caption: 'Fragrant Seeraga Samba Dum Biryani served fresh daily. #BiryaniLovers #Coimbatore',
     },
     {
       id: 'p4',
-      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop',
+      image: getAssetUrl('gee podi idly.jpg'),
       caption: 'Fluffy steaming idlies with trio of fresh chutneys and sambar. #SouthIndianBreakfast',
     },
   ];
@@ -71,7 +73,7 @@ export const InstagramSection: React.FC = () => {
               rel="noopener noreferrer"
               className="group relative h-64 rounded-xl overflow-hidden border border-brand-gold/20 hover:border-brand-gold transition-all duration-300 shadow-lg"
             >
-              <img
+              <ImageWithFallback
                 src={post.image}
                 alt={post.caption}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-95"

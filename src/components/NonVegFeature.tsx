@@ -1,6 +1,8 @@
 import React from 'react';
 import { Flame, ArrowRight, Sparkles } from 'lucide-react';
 import { MenuCategory } from '../types';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface NonVegFeatureProps {
   onSelectCategory: (cat: MenuCategory) => void;
@@ -13,42 +15,42 @@ export const NonVegFeature: React.FC<NonVegFeatureProps> = ({ onSelectCategory }
       tag: 'KVS Special',
       desc: 'Succulent chicken roasted slowly in aromatic Byadgi chili paste and pure desi ghee.',
       category: 'Chicken Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
     },
     {
       name: 'Mutton Ghee Roast',
       tag: 'KVS Special',
       desc: 'Tender lamb cuts seared in copious clarified butter and secret stone-ground masala.',
       category: 'Mutton Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Kumaravilas Mutton Ghee Roast.webp'),
     },
     {
       name: 'Chicken Pallipalayam',
       tag: 'Kongu Classic',
       desc: 'Authentic rustic preparation with dried red chillies, shallots, and fresh coconut shards.',
       category: 'Chicken Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Chicken Pallipalayam.jpg'),
     },
     {
       name: 'Mutton Pallipalayam',
       tag: 'Kongu Classic',
       desc: 'Tender mutton cubes dry-roasted with country shallots and fiery whole red chillies.',
       category: 'Mutton Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Mutton Pallipalayam.jpg'),
     },
     {
       name: 'Chicken Chinthamani',
       tag: 'Kongu Heirloom',
       desc: 'Legendary countryside recipe with boneless chicken pieces and caramelized shallots.',
       category: 'Chicken Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Chicken Chinthamani.jpg'),
     },
     {
       name: 'Mutton Chukka',
       tag: 'Signature Roast',
       desc: 'Slow-roasted tender meat tossed in a dark, peppery, aromatic dry masala on iron tawa.',
       category: 'Mutton Starters & Gravies' as MenuCategory,
-      image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Mutton Chukka.jpg'),
     },
   ];
 
@@ -102,7 +104,7 @@ export const NonVegFeature: React.FC<NonVegFeatureProps> = ({ onSelectCategory }
               className="group relative rounded-xl bg-[#0a251d] border border-brand-gold/20 hover:border-brand-gold/60 transition-all duration-300 overflow-hidden flex flex-col justify-between"
             >
               <div className="relative h-48 overflow-hidden bg-black">
-                <img
+                <ImageWithFallback
                   src={dish.image}
                   alt={dish.name}
                   className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter brightness-90"

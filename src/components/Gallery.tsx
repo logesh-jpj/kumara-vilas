@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Camera, X, Maximize2 } from 'lucide-react';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface GalleryItem {
   id: string;
@@ -18,39 +20,39 @@ export const Gallery: React.FC = () => {
       id: 'g1',
       category: 'Specials',
       title: 'Kumaravilas Chicken Ghee Roast',
-      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=1000&auto=format&fit=crop',
+      image: getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
       span: 'md:col-span-2 md:row-span-2',
     },
     {
       id: 'g2',
       category: 'Food',
       title: 'Crispy Golden Ghee Roast Dosa',
-      image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Ghee Dosa.jpg'),
     },
     {
       id: 'g3',
       category: 'Specials',
       title: 'Ghee Podi Idly with Sambar & Chutneys',
-      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('gee podi idly.jpg'),
     },
     {
       id: 'g4',
       category: 'Food',
       title: 'Seeraga Samba Dum Biryani',
-      image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Mutton Biryani.jpg'),
     },
     {
       id: 'g5',
       category: 'Dining',
       title: 'Traditional South Indian Dining Spread',
-      image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1000&auto=format&fit=crop',
+      image: getAssetUrl('Non-Veg Meals.jpg'),
       span: 'md:col-span-2',
     },
     {
       id: 'g6',
       category: 'Restaurant',
       title: 'Warm & Authentic Hospitality',
-      image: 'https://images.unsplash.com/photo-1517244683847-7456b63c5969?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('bun parotta.jpg'),
     },
   ];
 
@@ -105,7 +107,7 @@ export const Gallery: React.FC = () => {
                 item.span || ''
               }`}
             >
-              <img
+              <ImageWithFallback
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter brightness-90"
@@ -154,7 +156,7 @@ export const Gallery: React.FC = () => {
               <X className="w-6 h-6" />
             </button>
 
-            <img
+            <ImageWithFallback
               src={selectedImage.image}
               alt={selectedImage.title}
               className="w-full max-h-[75vh] object-cover"

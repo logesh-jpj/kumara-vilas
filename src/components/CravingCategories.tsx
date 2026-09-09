@@ -1,6 +1,8 @@
 import React from 'react';
 import { Utensils, ArrowUpRight } from 'lucide-react';
 import { MenuCategory } from '../types';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface CravingItem {
   id: string;
@@ -22,7 +24,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
       title: 'Tiffin Favourites',
       subtitle: 'Idly, Dosa & Uthappam',
       categoryTarget: 'Dosa',
-      image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Ghee Dosa.jpg'),
       tag: 'Crispy & Steamed',
     },
     {
@@ -30,7 +32,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
       title: 'Parotta Favourites',
       subtitle: 'Classic & Kothu Parotta',
       categoryTarget: 'Parotta',
-      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('parotta.jpg'),
       tag: 'Flaky & Salna',
     },
     {
@@ -38,7 +40,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
       title: 'Chicken Specialties',
       subtitle: 'Bold Chicken Preparations',
       categoryTarget: 'Chicken Starters & Gravies',
-      image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Chicken Chinthamani.jpg'),
       tag: 'Kongu & Chettinad',
     },
     {
@@ -46,7 +48,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
       title: 'Mutton Favourites',
       subtitle: 'Hearty Traditional Dishes',
       categoryTarget: 'Mutton Starters & Gravies',
-      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Mutton Chukka.jpg'),
       tag: 'Slow Roasted Chukka',
     },
     {
@@ -54,7 +56,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
       title: 'Biryani',
       subtitle: 'Aromatic Rice Favourites',
       categoryTarget: 'Biryani',
-      image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Chicken Biryani.jpg'),
       tag: 'Seeraga Samba Dum',
     },
   ];
@@ -95,7 +97,7 @@ export const CravingCategories: React.FC<CravingCategoriesProps> = ({ onSelectCa
               className="group relative h-80 rounded-xl overflow-hidden text-left border border-brand-gold/25 hover:border-brand-gold transition-all duration-300 shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-gold"
             >
               {/* Background Image */}
-              <img
+              <ImageWithFallback
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-[0.65] contrast-[1.1]"

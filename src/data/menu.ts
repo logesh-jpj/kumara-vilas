@@ -1,60 +1,214 @@
 import { MenuItem } from '../types';
 
-// Curated high quality authentic South Indian dish reference images
+/**
+ * DYNAMIC DATABASE / API IMAGE MAPPING INSTRUCTIONS:
+ * --------------------------------------------------
+ * If dish data is loaded dynamically from a database or backend API:
+ * 1. Store the image filename (e.g. "Chicken Biryani.jpg") or asset key in the dish record (`image_filename` column).
+ * 2. In the frontend API response transformer, pass the filename to `getAssetUrl(filename)` to resolve the bundled local asset URL.
+ * 3. Alternatively, if serving assets from a Cloud Storage bucket / CDN, configure `IMAGE_BASE_URL` env variable.
+ */
+
+// Dynamically import all uploaded images from src/assets using Vite's eager glob import
+const assetModules = import.meta.glob<{ default: string }>('../assets/*.{jpg,jpeg,png,webp,avif,svg}', { eager: true });
+const ASSET_REGISTRY: Record<string, string> = {};
+
+for (const path in assetModules) {
+  const fileName = path.split('/').pop() || '';
+  ASSET_REGISTRY[fileName] = assetModules[path].default;
+}
+
+/**
+ * Resolves local image asset URL by exact or case-insensitive filename.
+ * Returns fallback asset if the specified file is not found.
+ */
+export function getAssetUrl(filename: string): string {
+  if (ASSET_REGISTRY[filename]) {
+    return ASSET_REGISTRY[filename];
+  }
+  const lowerName = filename.toLowerCase();
+  const matchKey = Object.keys(ASSET_REGISTRY).find((k) => k.toLowerCase() === lowerName);
+  if (matchKey) {
+    return ASSET_REGISTRY[matchKey];
+  }
+  // Safe Fallback image
+  return ASSET_REGISTRY['veg meals.jpg'] || ASSET_REGISTRY['hero.png'] || '';
+}
+
+// Curated authentic dish images mapped directly to custom local assets
 export const DISH_IMAGES: Record<string, string> = {
-  // Idly & Podi
-  'idly': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop',
-  'podi-idly': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=600&auto=format&fit=crop',
-  'kothu-idly': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
+  // Idly Varieties
+  'idly': getAssetUrl('idly.jpg'),
+  'idly-plain': getAssetUrl('idly.jpg'),
+  'idly-paper': getAssetUrl('podi idly.jpg'),
+  'idly-pepper': getAssetUrl('pepper idly.jpg'),
+  'idly-podi': getAssetUrl('podi idly.jpg'),
+  'podi-idly': getAssetUrl('podi idly.jpg'),
+  'idly-kothu': getAssetUrl('kothu idly.jpg'),
+  'kothu-idly': getAssetUrl('kothu idly.jpg'),
+  'idly-chicken-kothu': getAssetUrl('Chicken Kothu Idly.jpg'),
+  'idly-mutton-kothu': getAssetUrl('mutton Kothu Idly.jpg'),
+  'idly-ghee-podi': getAssetUrl('gee podi idly.jpg'),
 
   // Dosa & Roasts
-  'dosa': 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop',
-  'kari-dosa': 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop',
-  'ghee-roast': 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?q=80&w=600&auto=format&fit=crop',
-  'uthappam': 'https://images.unsplash.com/photo-1517244683847-7456b63c5969?q=80&w=600&auto=format&fit=crop',
+  'dosa': getAssetUrl('Ghee Dosa.jpg'),
+  'dosa-veetu': getAssetUrl('veetu dosa.jpg'),
+  'dosa-podi': getAssetUrl('Podi Dosa.jpg'),
+  'dosa-ghee': getAssetUrl('Ghee Dosa.jpg'),
+  'dosa-egg': getAssetUrl('egg dosa.jpg'),
+  'dosa-onion': getAssetUrl('Onion Dosa.avif'),
+  'dosa-kudal': getAssetUrl('Kudal Dosa.jpg'),
+  'dosa-chicken-kari': getAssetUrl('chicken  kari dosa.jpg'),
+  'dosa-mutton-kari': getAssetUrl('mutton kari dosa.jpg'),
+  'dosa-all-mix-kari': getAssetUrl('All Mix Kari Dosa.webp'),
+  'dosa-ghee-podi-onion': getAssetUrl('Ghee Podi Onion Dosa.jpg'),
+  'kari-dosa': getAssetUrl('chicken  kari dosa.jpg'),
+  'ghee-roast': getAssetUrl('Ghee Roast.jpg'),
+  'roast-podi': getAssetUrl('Podi Roast.jpg'),
+  'roast-ghee': getAssetUrl('Ghee Roast.jpg'),
+  'roast-onion': getAssetUrl('onion roast.jpg'),
+  'roast-egg': getAssetUrl('egg roast.jpg'),
 
-  // Parotta & Chappathi
-  'parotta': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
-  'kothu-parotta': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
-  'bun-parotta': 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=600&auto=format&fit=crop',
-  'salna-parotta': 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=600&auto=format&fit=crop',
-  'chappathi': 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600&auto=format&fit=crop',
+  // Uthappam
+  'uthappam': getAssetUrl('Onion Uthappam.jpg'),
+  'uthappam-onion': getAssetUrl('Onion Uthappam.jpg'),
+  'uthappam-ghee-podi-onion': getAssetUrl('gee podi onion uthappam.jpg'),
+
+  // Parotta Varieties
+  'parotta': getAssetUrl('parotta.jpg'),
+  'parotta-plain': getAssetUrl('parotta.jpg'),
+  'parotta-bun': getAssetUrl('bun parotta.jpg'),
+  'bun-parotta': getAssetUrl('bun parotta.jpg'),
+  'parotta-nool': getAssetUrl('nool parotta.jpg'),
+  'nool-parotta': getAssetUrl('nool parotta.jpg'),
+  'parotta-ghee': getAssetUrl('gee parotta.jpg'),
+  'parotta-veechu': getAssetUrl('veechu parotta.jpg'),
+  'parotta-egg-veechu': getAssetUrl('egg veechu parotta.jpg'),
+  'parotta-chilly': getAssetUrl('chilly parotta.jpg'),
+  'parotta-veg-kothu': getAssetUrl('veg kothu parotta.jpg'),
+  'parotta-egg-kothu': getAssetUrl('egg kothu parotta.jpg'),
+  'parotta-chicken-kothu': getAssetUrl('chiken kothu parotta.jpg'),
+  'parotta-mutton-kothu': getAssetUrl('mutton kothu parotta.jpg'),
+  'parotta-keema-stuffed': getAssetUrl('Keema Stuffed Coin Parotta.jpg'),
+  'parotta-salna': getAssetUrl('salna parotta.jpg'),
+  'salna-parotta': getAssetUrl('salna parotta.jpg'),
+  'parotta-halwa': getAssetUrl('halwa parotta.jpg'),
+  'kothu-parotta': getAssetUrl('chiken kothu parotta.jpg'),
+  'chappathi': getAssetUrl('chappathi.jpg'),
+  'chappathi-plain': getAssetUrl('chappathi.jpg'),
+  'chappathi-egg': getAssetUrl('egg chappathi.jpg'),
+  'chappathi-veg-kothu': getAssetUrl('Veg Kothu Chappathi.jpg'),
+  'chappathi-egg-kothu': getAssetUrl('Egg Kothu Chappathi.jpg'),
+  'chappathi-chicken-kothu': getAssetUrl('chiken Kothu Chappathi.jpg'),
+  'chappathi-mutton-kothu': getAssetUrl('mutton Kothu Chappathi.webp'),
 
   // Veg Dishes
-  'veg-starters': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=600&auto=format&fit=crop',
-  'paneer-ghee-roast': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=600&auto=format&fit=crop',
-  'mushroom-pallipalayam': 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=600&auto=format&fit=crop',
-  'paneer-butter-masala': 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=600&auto=format&fit=crop',
+  'veg-starters': getAssetUrl('Gobi or Mushroom or Paneer 65.jpg'),
+  'paneer-ghee-roast': getAssetUrl('Kumaravilas Paneer Ghee Roast.jpg'),
+  'mushroom-pallipalayam': getAssetUrl('Mushroom Pallipalayam.jpg'),
+  'paneer-butter-masala': getAssetUrl('Masala Mushroom and Gobi.jpg'),
+  'veg-mushroom-pallipalayam': getAssetUrl('Mushroom Pallipalayam.jpg'),
+  'veg-65-trio': getAssetUrl('Gobi or Mushroom or Paneer 65.jpg'),
+  'veg-mushroom-chukka': getAssetUrl('Mushroom chukka.jpg'),
+  'veg-hot-pepper': getAssetUrl('Hot Pepper Gobi or Mushroom.jpg'),
+  'veg-japan': getAssetUrl('japan chicken.webp'),
+  'veg-kumaravilas-paneer-ghee-roast': getAssetUrl('Kumaravilas Paneer Ghee Roast.jpg'),
+  'veg-butter-garlic': getAssetUrl('Butter Garli  Mushroom or Paneer.jpg'),
+  'veg-paneer-butter-masala': getAssetUrl('Masala Mushroom and Gobi.jpg'),
+  'veg-kadai-paneer-mushroom': getAssetUrl('Kadai Paneer and Mushroom.jpg'),
+  'veg-masala-mushroom-gobi': getAssetUrl('Masala Mushroom and Gobi.jpg'),
+  'veg-gobi-chilli-manchurian': getAssetUrl('Gobi Chilli Manchurian.jpg'),
+  'veg-honey-chilli': getAssetUrl('Honey Chilli Gobi and Paneer.webp'),
 
   // Chicken Dishes
-  'chicken-starters': 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=600&auto=format&fit=crop',
-  'chicken-ghee-roast': 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?q=80&w=600&auto=format&fit=crop',
-  'chicken-pallipalayam': 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=600&auto=format&fit=crop',
-  'chicken-chinthamani': 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=600&auto=format&fit=crop',
-  'chicken-65': 'https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=600&auto=format&fit=crop',
-  'chicken-gravy': 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?q=80&w=600&auto=format&fit=crop',
-  'nattu-kozhi': 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?q=80&w=600&auto=format&fit=crop',
+  'chicken-starters': getAssetUrl('chicken 65.jpg'),
+  'chicken-ghee-roast': getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
+  'chicken-pallipalayam': getAssetUrl('Chicken Pallipalayam.jpg'),
+  'chicken-chinthamani': getAssetUrl('Chicken Chinthamani.jpg'),
+  'chicken-65': getAssetUrl('chicken 65.jpg'),
+  'chicken-gravy': getAssetUrl('Chicken Chettinad Gravy.jpg'),
+  'nattu-kozhi': getAssetUrl('Nattu Kozhi.jpg'),
+  'chicken-kaatu-varuval': getAssetUrl('Chicken Kaatu Varuval.jpg'),
+  'chicken-malai-gravy': getAssetUrl('Chicken Malai Gravy.jpg'),
+  'chicken-boneless-chukka': getAssetUrl('Boneless Chicken Chukka.webp'),
+  'chicken-pachai-milagai-varuval': getAssetUrl('Pachai Milagai Kozhi Varuval.webp'),
+  'chicken-lollipop': getAssetUrl('Chicken Lollipop.jpg'),
+  'chicken-wings': getAssetUrl('Chicken Wings.jpg'),
+  'chicken-spicy-lollipop': getAssetUrl('spicy lollipop.webp'),
+  'chicken-777': getAssetUrl('777 Chicken.jpg'),
+  'chicken-moru-moru': getAssetUrl('Moru Moru Chicken.webp'),
+  'chicken-pichi-potta': getAssetUrl('Pichi Potta Kara Kozhi.webp'),
+  'chicken-pepper-leg': getAssetUrl('Pepper Leg.jpg'),
+  'chicken-kumaravilas-ghee-roast': getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
+  'chicken-kumaravilas-special': getAssetUrl('Kumaravilas chicken Ghee Roast.jpg'),
+  'chicken-japan': getAssetUrl('japan chicken.webp'),
+  'chicken-dragon': getAssetUrl('Dragon Chicken.jpg'),
+  'chicken-dynamite': getAssetUrl('chicken dinamite.jpeg'),
+  'chicken-manchurian': getAssetUrl('Chicken Manchurian.jpg'),
+  'chicken-lemon': getAssetUrl('Lemon Chicken.jpg'),
+  'chicken-chettinad-gravy': getAssetUrl('Chicken Chettinad Gravy.jpg'),
+  'chicken-pepper-gravy': getAssetUrl('Pepper Chicken Gravy.jpg'),
+  'chicken-butter-masala': getAssetUrl('utter Chicken Masala.jpg'),
+  'chicken-pallipalayam-gravy': getAssetUrl('Pallipalayam Chicken Gravy.jpg'),
+  'chicken-hyderabadi-gravy': getAssetUrl('Hyderabadi Chicken Gravy.jpg'),
+  'chicken-nattu-kozhi': getAssetUrl('Nattu Kozhi.jpg'),
+  'chicken-nattu-kozhi-chinthamani': getAssetUrl('Nattu Kozhi Chinthamani.jpg'),
+  'chicken-nattu-kozhi-pallipalayam': getAssetUrl('Chicken Pallipalayam.jpg'),
+  'chicken-nattu-kozhi-kuzhambu': getAssetUrl('Chicken Chettinad Gravy.jpg'),
 
   // Mutton Dishes
-  'mutton-starters': 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop',
-  'mutton-chukka': 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?q=80&w=600&auto=format&fit=crop',
-  'mutton-ghee-roast': 'https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=600&auto=format&fit=crop',
-  'mutton-kola': 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop',
-  'mutton-kothu-kari': 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop',
+  'mutton-starters': getAssetUrl('Mutton Chukka.jpg'),
+  'mutton-chukka': getAssetUrl('Mutton Chukka.jpg'),
+  'mutton-ghee-roast': getAssetUrl('Kumaravilas Mutton Ghee Roast.webp'),
+  'mutton-kola': getAssetUrl('Mutton Kola Urundai.jpg'),
+  'mutton-kola-urundai': getAssetUrl('Mutton Kola Urundai.jpg'),
+  'mutton-pallipalayam': getAssetUrl('Mutton Pallipalayam.jpg'),
+  'mutton-kothu-kari': getAssetUrl('Mutton Kothu Kari.webp'),
+  'mutton-kumaravilas-kothu-kari': getAssetUrl('Kumaravilas Mutton Kothu Kari.webp'),
+  'mutton-brain-fry': getAssetUrl('Brain Fry.jpg'),
+  'mutton-brain-egg-fry': getAssetUrl('Brain Egg Fry.jpg'),
+  'mutton-nalli-fry-gravy': getAssetUrl('Mutton Nalli Fry or Gravy.webp'),
+  'mutton-chops-fry-gravy': getAssetUrl('Mutton Chops Fry or Gravy.jpg'),
+  'mutton-kudal-fry-gravy': getAssetUrl('Kudal Fry or Gravy.jpg'),
+  'mutton-pepper-fry-gravy': getAssetUrl('Pepper Mutton Fry or Gravy.jpg'),
+  'mutton-liver-fry': getAssetUrl('Liver Fry.jpg'),
+  'mutton-nenju-kari': getAssetUrl('Nenju Kari.webp'),
+  'mutton-kumaravilas-ghee-roast': getAssetUrl('Kumaravilas Mutton Ghee Roast.webp'),
 
   // Fish & Egg
-  'fish': 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=600&auto=format&fit=crop',
-  'egg': 'https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=600&auto=format&fit=crop',
+  'fish': getAssetUrl('Meen Kuzhambu.jpg'),
+  'fish-meen-kuzhambu': getAssetUrl('Meen Kuzhambu.jpg'),
+  'fish-of-the-day': getAssetUrl('Meen of the day.webp'),
+  'egg': getAssetUrl('egg gravy.jpg'),
+  'egg-gravy': getAssetUrl('egg gravy.jpg'),
+  'egg-kalakki': getAssetUrl('Kalakki Plain and Masala and Onion and Chicken and Kudal.webp'),
+  'egg-half-full-boil': getAssetUrl('Half Boil or Full Boil.jpg'),
+  'egg-thengai-ennai-omelette': getAssetUrl('Thengai Ennai Omelette.webp'),
+  'egg-chinna-vengayam-omelette': getAssetUrl('Chinna Vengayam Omelette.jpg'),
+  'egg-chicken-omelette': getAssetUrl('Chicken Omelette.webp'),
+  'egg-muttai-porial': getAssetUrl('Muttai Porial.jpg'),
+  'egg-muttai-mass': getAssetUrl('Muttai Mass.jpg'),
 
   // Meals & Biryani
-  'veg-meals': 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=600&auto=format&fit=crop',
-  'non-veg-meals': 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=600&auto=format&fit=crop',
-  'biryani': 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=600&auto=format&fit=crop',
+  'veg-meals': getAssetUrl('veg meals.jpg'),
+  'non-veg-meals': getAssetUrl('Non-Veg Meals.jpg'),
+  'meals-veg': getAssetUrl('veg meals.jpg'),
+  'meals-non-veg': getAssetUrl('Non-Veg Meals.jpg'),
+  'biryani': getAssetUrl('Mutton Biryani.jpg'),
+  'biryani-mutton': getAssetUrl('Mutton Biryani.jpg'),
+  'biryani-mutton-chukka': getAssetUrl('Mutton Biryani.jpg'),
+  'biryani-chicken': getAssetUrl('Chicken Biryani.jpg'),
+  'biryani-glima': getAssetUrl('Glima Biryani.jpg'),
+  'biryani-egg': getAssetUrl('Egg Biryani.jpg'),
+  'biryani-plain': getAssetUrl('Plain Biryani (Kuska).jpg'),
 
   // Desserts
-  'payasam': 'https://images.unsplash.com/photo-1546549032-9571cd6b27df?q=80&w=600&auto=format&fit=crop',
-  'pudding': 'https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=600&auto=format&fit=crop',
-  'gulab-jamun': 'https://images.unsplash.com/photo-1605197161470-ad27928e3b3e?q=80&w=600&auto=format&fit=crop',
+  'payasam': getAssetUrl('Elaneer Payasam.jpg'),
+  'pudding': getAssetUrl('Elaneer Pudding.jpg'),
+  'gulab-jamun': getAssetUrl('Gulab Jamun.jpg'),
+  'dessert-gulab-jamun': getAssetUrl('Gulab Jamun.jpg'),
+  'dessert-elaneer-payasam': getAssetUrl('Elaneer Payasam.jpg'),
+  'dessert-elaneer-pudding': getAssetUrl('Elaneer Pudding.jpg'),
 };
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -1311,37 +1465,64 @@ export const CATEGORIES_LIST: Array<{ id: string; name: string }> = [
 
 // Helper to get image for any dish
 export function getDishReferenceImage(dish: MenuItem): string {
+  if (DISH_IMAGES[dish.id]) {
+    return DISH_IMAGES[dish.id];
+  }
+
   if (dish.isKvsSpecial) {
     if (dish.id.includes('paneer')) return DISH_IMAGES['paneer-ghee-roast'];
     if (dish.id.includes('chicken-kumaravilas') || dish.id.includes('chicken-ghee')) return DISH_IMAGES['chicken-ghee-roast'];
     if (dish.id.includes('mutton-kumaravilas') || dish.id.includes('mutton-ghee')) return DISH_IMAGES['mutton-ghee-roast'];
-    if (dish.id.includes('keema')) return DISH_IMAGES['parotta'];
-    if (dish.id.includes('salna')) return DISH_IMAGES['salna-parotta'];
-    if (dish.id.includes('halwa')) return DISH_IMAGES['pudding'];
-    if (dish.id.includes('idly')) return DISH_IMAGES['podi-idly'];
-    if (dish.id.includes('dosa')) return DISH_IMAGES['dosa'];
-    if (dish.id.includes('uthappam')) return DISH_IMAGES['uthappam'];
+    if (dish.id.includes('keema')) return DISH_IMAGES['parotta-keema-stuffed'];
+    if (dish.id.includes('salna')) return DISH_IMAGES['parotta-salna'];
+    if (dish.id.includes('halwa')) return DISH_IMAGES['parotta-halwa'];
+    if (dish.id.includes('idly')) return DISH_IMAGES['idly-ghee-podi'];
+    if (dish.id.includes('dosa')) return DISH_IMAGES['dosa-ghee-podi-onion'];
+    if (dish.id.includes('uthappam')) return DISH_IMAGES['uthappam-ghee-podi-onion'];
   }
 
   const name = dish.name.toLowerCase();
   const cat = dish.category;
 
   if (cat === 'Idly') {
-    if (name.includes('podi') || name.includes('pepper')) return DISH_IMAGES['podi-idly'];
-    if (name.includes('kothu')) return DISH_IMAGES['kothu-idly'];
-    return DISH_IMAGES['idly'];
+    if (name.includes('chicken')) return DISH_IMAGES['idly-chicken-kothu'];
+    if (name.includes('mutton')) return DISH_IMAGES['idly-mutton-kothu'];
+    if (name.includes('ghee')) return DISH_IMAGES['idly-ghee-podi'];
+    if (name.includes('podi') || name.includes('pepper')) return DISH_IMAGES['idly-podi'];
+    if (name.includes('kothu')) return DISH_IMAGES['idly-kothu'];
+    return DISH_IMAGES['idly-plain'];
   }
   if (cat === 'Dosa' || cat === 'Roast') {
-    if (name.includes('kari') || name.includes('chicken') || name.includes('mutton') || name.includes('kudal')) return DISH_IMAGES['kari-dosa'];
+    if (name.includes('all mix')) return DISH_IMAGES['dosa-all-mix-kari'];
+    if (name.includes('mutton kari') || name.includes('mottan karin')) return DISH_IMAGES['dosa-mutton-kari'];
+    if (name.includes('chicken kari')) return DISH_IMAGES['dosa-chicken-kari'];
+    if (name.includes('kudal')) return DISH_IMAGES['dosa-kudal'];
+    if (name.includes('egg')) return DISH_IMAGES['dosa-egg'];
+    if (name.includes('onion')) return DISH_IMAGES['dosa-onion'];
+    if (name.includes('kari')) return DISH_IMAGES['kari-dosa'];
     if (name.includes('roast') || name.includes('ghee')) return DISH_IMAGES['ghee-roast'];
     return DISH_IMAGES['dosa'];
   }
-  if (cat === 'Uthappam') return DISH_IMAGES['uthappam'];
+  if (cat === 'Uthappam') {
+    if (name.includes('ghee') || name.includes('podi')) return DISH_IMAGES['uthappam-ghee-podi-onion'];
+    if (name.includes('onion')) return DISH_IMAGES['uthappam-onion'];
+    return DISH_IMAGES['uthappam'];
+  }
   if (cat === 'Parotta') {
+    if (name.includes('halwa')) return DISH_IMAGES['parotta-halwa'];
+    if (name.includes('salna')) return DISH_IMAGES['parotta-salna'];
+    if (name.includes('keema') || name.includes('coin')) return DISH_IMAGES['parotta-keema-stuffed'];
+    if (name.includes('chicken kothu')) return DISH_IMAGES['parotta-chicken-kothu'];
+    if (name.includes('egg kothu')) return DISH_IMAGES['parotta-egg-kothu'];
+    if (name.includes('veg kothu')) return DISH_IMAGES['parotta-veg-kothu'];
+    if (name.includes('chilly')) return DISH_IMAGES['parotta-chilly'];
+    if (name.includes('egg veechu')) return DISH_IMAGES['parotta-egg-veechu'];
+    if (name.includes('veechu')) return DISH_IMAGES['parotta-veechu'];
+    if (name.includes('ghee')) return DISH_IMAGES['parotta-ghee'];
+    if (name.includes('nool')) return DISH_IMAGES['parotta-nool'];
+    if (name.includes('bun')) return DISH_IMAGES['parotta-bun'];
     if (name.includes('kothu')) return DISH_IMAGES['kothu-parotta'];
-    if (name.includes('bun')) return DISH_IMAGES['bun-parotta'];
-    if (name.includes('salna')) return DISH_IMAGES['salna-parotta'];
-    return DISH_IMAGES['parotta'];
+    return DISH_IMAGES['parotta-plain'];
   }
   if (cat === 'Chappathi') return DISH_IMAGES['chappathi'];
   if (cat === 'Veg Starters & Gravies') {
@@ -1372,9 +1553,10 @@ export function getDishReferenceImage(dish: MenuItem): string {
   }
   if (cat === 'Biryani') return DISH_IMAGES['biryani'];
   if (cat === 'Desserts') {
+    if (name.includes('gulab') || name.includes('jamun') || name.includes('globe')) return DISH_IMAGES['dessert-gulab-jamun'];
     if (name.includes('payasam')) return DISH_IMAGES['payasam'];
     if (name.includes('pudding')) return DISH_IMAGES['pudding'];
-    return DISH_IMAGES['gulab-jamun'];
+    return DISH_IMAGES['dessert-gulab-jamun'];
   }
 
   return DISH_IMAGES['dosa'];

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Sparkles, Utensils, ArrowRight } from 'lucide-react';
 import { MenuCategory } from '../types';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface MealsBiryaniProps {
   onSelectCategory: (cat: MenuCategory) => void;
@@ -54,8 +56,8 @@ export const MealsBiryani: React.FC<MealsBiryaniProps> = ({ onSelectCategory }) 
           {/* Spotlight 1: Banana Leaf Meals Spread */}
           <div className="rounded-2xl bg-[#0a251d] border border-brand-gold/30 overflow-hidden shadow-2xl flex flex-col justify-between">
             <div className="relative h-64 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1000&auto=format&fit=crop"
+              <ImageWithFallback
+                src={getAssetUrl('veg meals.jpg')}
                 alt="Traditional South Indian Meals"
                 className="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-transform duration-700"
                 loading="lazy"
@@ -109,8 +111,8 @@ export const MealsBiryani: React.FC<MealsBiryaniProps> = ({ onSelectCategory }) 
           {/* Spotlight 2: Seeraga Samba Biryani */}
           <div className="rounded-2xl bg-[#0a251d] border border-brand-gold/30 overflow-hidden shadow-2xl flex flex-col justify-between">
             <div className="relative h-64 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=1000&auto=format&fit=crop"
+              <ImageWithFallback
+                src={getAssetUrl('Mutton Biryani.jpg')}
                 alt="Seeraga Samba Dum Biryani"
                 className="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-transform duration-700"
                 loading="lazy"

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, Sparkles, X, LayoutGrid, List, Eye, Phone, CheckCircle2 } from 'lucide-react';
 import { MENU_ITEMS, CATEGORIES_LIST, getDishReferenceImage } from '../data/menu';
 import { MenuCategory, MenuItem } from '../types';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface MenuExplorerProps {
   selectedCategory: MenuCategory;
@@ -249,7 +250,7 @@ export const MenuExplorer: React.FC<MenuExplorerProps> = ({
                   {/* Visual Image Header (in visual mode) */}
                   {viewMode === 'visual' && (
                     <div className="relative h-44 overflow-hidden bg-black/40">
-                      <img
+                      <ImageWithFallback
                         src={dishImage}
                         alt={dish.name}
                         className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter brightness-90 contrast-105"
@@ -397,7 +398,7 @@ export const MenuExplorer: React.FC<MenuExplorerProps> = ({
 
             {/* Modal Image */}
             <div className="relative h-60 overflow-hidden bg-black">
-              <img
+              <ImageWithFallback
                 src={getDishReferenceImage(previewDish)}
                 alt={previewDish.name}
                 className="w-full h-full object-cover"

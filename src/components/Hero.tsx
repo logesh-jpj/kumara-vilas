@@ -1,5 +1,7 @@
 import React from 'react';
 import { Phone, Utensils, MapPin, ChevronDown } from 'lucide-react';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 export const Hero: React.FC = () => {
   return (
@@ -9,8 +11,8 @@ export const Hero: React.FC = () => {
     >
       {/* Background Image with Deep Dark Green Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=2000&auto=format&fit=crop"
+        <ImageWithFallback
+          src={getAssetUrl('Non-Veg Meals.jpg')}
           alt="Authentic South Indian Tiffin Feast"
           className="w-full h-full object-cover object-center scale-105 filter brightness-[0.38] contrast-[1.1]"
         />

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Utensils, Sparkles, CheckCircle2 } from 'lucide-react';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 export const About: React.FC = () => {
   return (
@@ -18,8 +20,8 @@ export const About: React.FC = () => {
               
               {/* Primary Image Container */}
               <div className="relative rounded-xl overflow-hidden shadow-2xl border border-brand-gold/30 bg-[#0e2f25]">
-                <img
-                  src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=1200&auto=format&fit=crop"
+                <ImageWithFallback
+                  src={getAssetUrl('veg meals.jpg')}
                   alt="Authentic South Indian Dining Spread at Hotel Kumara Vilas"
                   className="w-full h-[420px] sm:h-[480px] object-cover hover:scale-105 transition-transform duration-700 filter contrast-[1.05]"
                   loading="lazy"

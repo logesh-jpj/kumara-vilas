@@ -1,6 +1,8 @@
 import React from 'react';
 import { Sparkles, Heart } from 'lucide-react';
 import { MenuCategory } from '../types';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface DessertsProps {
   onSelectCategory: (cat: MenuCategory) => void;
@@ -12,19 +14,19 @@ export const Desserts: React.FC<DessertsProps> = ({ onSelectCategory }) => {
       name: 'Elaneer Payasam',
       badge: 'House Signature',
       desc: 'Heavenly chilled traditional payasam crafted from fresh tender coconut water, tender coconut pulp, and cardamom cream.',
-      image: 'https://images.unsplash.com/photo-1546549032-9571cd6b27df?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Elaneer Payasam.jpg'),
     },
     {
       name: 'Elaneer Pudding',
       badge: 'Melt-in-Mouth',
       desc: 'Silky smooth gourmet dessert delicately set with fresh tender coconut cream and pure milk.',
-      image: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Elaneer Pudding.jpg'),
     },
     {
       name: 'Gulab Jamun',
       badge: 'Classic Favorite',
       desc: 'Warm, golden khoya dumplings steeped in aromatic saffron and green cardamom sugar syrup.',
-      image: 'https://images.unsplash.com/photo-1605197161470-ad27928e3b3e?q=80&w=800&auto=format&fit=crop',
+      image: getAssetUrl('Gulab Jamun.jpg'),
     },
   ];
 
@@ -47,15 +49,15 @@ export const Desserts: React.FC<DessertsProps> = ({ onSelectCategory }) => {
           </p>
         </div>
 
-        {/* 3 Dessert Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Dessert Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {dessertItems.map((d) => (
             <div
               key={d.name}
               className="group rounded-xl bg-[#0a251d] border border-brand-gold/20 hover:border-brand-gold/60 transition-all duration-300 overflow-hidden shadow-xl flex flex-col justify-between"
             >
               <div className="relative h-52 overflow-hidden bg-black/40">
-                <img
+                <ImageWithFallback
                   src={d.image}
                   alt={d.name}
                   className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter brightness-90"

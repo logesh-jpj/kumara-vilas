@@ -1,6 +1,8 @@
 import React from 'react';
 import { Leaf, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { MenuCategory } from '../types';
+import { getAssetUrl } from '../data/menu';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface VegFeatureProps {
   onSelectCategory: (cat: MenuCategory) => void;
@@ -82,8 +84,8 @@ export const VegFeature: React.FC<VegFeatureProps> = ({ onSelectCategory }) => {
           {/* Visual Column */}
           <div className="lg:col-span-6">
             <div className="relative rounded-2xl overflow-hidden border border-brand-gold/30 shadow-2xl bg-[#0a251d]">
-              <img
-                src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=1200&auto=format&fit=crop"
+              <ImageWithFallback
+                src={getAssetUrl('Ghee Dosa.jpg')}
                 alt="South Indian Vegetarian Feast"
                 className="w-full h-[460px] object-cover hover:scale-105 transition-transform duration-700 filter brightness-95"
                 loading="lazy"
